@@ -32,7 +32,7 @@ public class PlayerManager : MonoBehaviour
     public GameObject playerPickaxe;
 
     public Dictionary<string, GameObject> toolOnPlayer;
-    string lastSelectedTool = "none";
+    string lastSelectedTool = null;
 
 
     // Start is called before the first frame update
@@ -49,8 +49,8 @@ public class PlayerManager : MonoBehaviour
 
         toolOnPlayer = new Dictionary<string, GameObject>
         {
-            {Tools.WateringCan, playerWateringCan },
-            {Tools.Pickaxe, playerPickaxe },
+            { Tools.WateringCan, playerWateringCan },
+            { Tools.Pickaxe, playerPickaxe },
         };
         
     }
@@ -105,7 +105,6 @@ public class PlayerManager : MonoBehaviour
             SetToolUIVisibility(toolUiIsVisible: true);
 
             touchedTool = collision.gameObject.name;
-            // toolOnPlayer.TryGetValue(collision.gameObject.name, out var tool);
 
         }
     }
@@ -131,7 +130,7 @@ public class PlayerManager : MonoBehaviour
             }
         */
     }
-
+        
     private void SetToolUIVisibility(bool toolUiIsVisible) 
     {
         showingToolUI = toolUiIsVisible;
@@ -153,20 +152,19 @@ public class PlayerManager : MonoBehaviour
     
     private void ChangePlayerAppearance()
     {
-        toolOnPlayer.TryGetValue(touchedTool, out var newTool);
-        Debug.Log($"touched tool {touchedTool} and tool to show is {newTool}");
+        var newTool = GetTool(touchedTool);
+        var oldTool = GetTool(lastSelectedTool);
+        
+        newTool?.SetActive(true);
+        oldTool?.SetActive(false);
 
-        toolOnPlayer.TryGetValue(lastSelectedTool, out var oldTool);
-
-
-        if (lastSelectedTool != touchedTool)
-        {
-            newTool.SetActive(true);
-            oldTool.SetActive(false);
-
-            lastSelectedTool = touchedTool;
-        }
-
+        lastSelectedTool = touchedTool;
+        touchedTool = null;
     }
-    
+
+    private GameObject GetTool(string key) => key switch
+    {
+        null => null,
+        _ => toolOnPlayer[key]
+    };
 }
