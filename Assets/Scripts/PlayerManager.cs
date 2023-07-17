@@ -1,3 +1,4 @@
+using System.Transactions;
 using System.Threading.Tasks;
 using System.ComponentModel.Design;
 using System.Security.Cryptography;
@@ -19,15 +20,24 @@ public class PlayerManager : MonoBehaviour
     public float timeRemainingOnCountdown = 3;
     public GameObject useToolUI;
 
-    public string toolInSpotlight;
     public GameObject lightOnWateringCan;
     public GameObject lightOnPickaxe;
+    private GameObject activeLight;
+
+    public Dictionary<string, GameObject> lightOnTool;
 
     // Start is called before the first frame update
     void Start()
     {
         controller = gameObject.GetComponent<CharacterController>();
         Rigidbody = GetComponent<Rigidbody>();
+
+        lightOnTool = new Dictionary<string, GameObject>()
+        {
+            { Tools.WateringCan, lightOnWateringCan },
+            { Tools.Pickaxe, lightOnPickaxe },
+        };
+        
     }
 
     void FixedUpdate()
@@ -46,21 +56,21 @@ public class PlayerManager : MonoBehaviour
         
         if (showingToolUI)
         {
-            StartCountdownToDisableToolUI();          
+            StartCountdownToDisableToolUI();   
+
+            if (Input.GetKeyDown(KeyCode.E))       
+            {
+                Debug.Log("Key E was pressed!");
+                //ChangePlayerAppearance();
+            }
         }
-        
-        bool isWateringCanEnlightened = (toolInSpotlight == Tools.WateringCan && showingToolUI);
-        lightOnWateringCan.SetActive(isWateringCanEnlightened);
-        
-        bool isPickaxeEnlightened = (toolInSpotlight == Tools.Pickaxe && showingToolUI);
-        lightOnPickaxe.SetActive(isPickaxeEnlightened);
-        
-        if(showingToolUI && Input.GetKeyDown(KeyCode.E))
+        else if (activeLight is not null)
         {
-            Debug.Log("Key E was pressed!");
-            //ChangePlayerAppearance();
+            SetActiveLight(null);    
+            SetToolUIVisibility(toolUiIsVisible: false);
         }
     }
+
 
     private void OnCollisionEnter(Collision collision) {
         if(collision.gameObject.tag == "Ground") {
@@ -72,21 +82,34 @@ public class PlayerManager : MonoBehaviour
             Debug.Log("Player not on ground");
         }
 
-        if(collision.gameObject.name.Equals(Tools.WateringCan)){
-            Debug.Log("touched wateringCan");
+        if (lightOnTool.TryGetValue(collision.gameObject.name, out GameObject light))
+        {
+            Debug.Log($"touched {collision.gameObject.name}");
+            SetActiveLight(newActiveLight: light);
             SetToolUIVisibility(toolUiIsVisible: true);
-
-                toolInSpotlight = Tools.WateringCan;
-                Debug.Log("Name for the tool touched: " + toolInSpotlight);
         }
+    }
 
-        if(collision.gameObject.name.Equals(Tools.Pickaxe)){
-            Debug.Log("touched Pickaxe");
-            SetToolUIVisibility(toolUiIsVisible: true);
+    private void SetActiveLight(GameObject newActiveLight)
+    {
+        var previousActiveLight = activeLight;
+        activeLight = newActiveLight;
 
-                toolInSpotlight = Tools.Pickaxe;
-                Debug.Log("Name for the tool touched: " + toolInSpotlight);
-        }
+        previousActiveLight?.SetActive(false);
+        activeLight?.SetActive(true);
+        
+        /* Short form for:
+            
+            if (previousActiveLight is not null)
+            {
+                previousActiveLight.SetActive(false);
+            }
+
+            if (activeLight is not null)
+            {
+                activeLight.SetActive(false);
+            }
+        */
     }
 
     private void SetToolUIVisibility(bool toolUiIsVisible) 
