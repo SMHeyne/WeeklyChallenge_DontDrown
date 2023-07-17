@@ -1,3 +1,5 @@
+using System.Threading.Tasks;
+using System.ComponentModel.Design;
 using System.Security.Cryptography;
 using System.Collections;
 using System.Collections.Generic;
@@ -18,7 +20,6 @@ public class PlayerManager : MonoBehaviour
     public GameObject useToolUI;
 
     public string toolInSpotlight;
-    bool isWateringCanEnlightened = false;
     public GameObject lightOnWateringCan;
     public GameObject lightOnPickaxe;
 
@@ -45,22 +46,14 @@ public class PlayerManager : MonoBehaviour
         
         if (showingToolUI)
         {
-            StartCountdownToDisableToolUI();
-
-            lightOnWateringCan.SetActive(isWateringCanEnlightened);
-                        
+            StartCountdownToDisableToolUI();          
         }
         
-        if (toolInSpotlight == "WateringCan" && showingToolUI)
-        {
-            isWateringCanEnlightened = true;
-        }   
-        else
-        {
-            isWateringCanEnlightened = false;
-        }
-
-
+        bool isWateringCanEnlightened = (toolInSpotlight == Tools.WateringCan && showingToolUI);
+        lightOnWateringCan.SetActive(isWateringCanEnlightened);
+        
+        bool isPickaxeEnlightened = (toolInSpotlight == Tools.Pickaxe && showingToolUI);
+        lightOnPickaxe.SetActive(isPickaxeEnlightened);
         
         if(showingToolUI && Input.GetKeyDown(KeyCode.E))
         {
@@ -79,19 +72,19 @@ public class PlayerManager : MonoBehaviour
             Debug.Log("Player not on ground");
         }
 
-        if(collision.gameObject.name.Equals("WateringCan")){
+        if(collision.gameObject.name.Equals(Tools.WateringCan)){
             Debug.Log("touched wateringCan");
             SetToolUIVisibility(toolUiIsVisible: true);
 
-                toolInSpotlight = "WateringCan";
+                toolInSpotlight = Tools.WateringCan;
                 Debug.Log("Name for the tool touched: " + toolInSpotlight);
         }
 
-        if(collision.gameObject.name.Equals("Pickaxe")){
+        if(collision.gameObject.name.Equals(Tools.Pickaxe)){
             Debug.Log("touched Pickaxe");
             SetToolUIVisibility(toolUiIsVisible: true);
 
-                toolInSpotlight = "Pickaxe";
+                toolInSpotlight = Tools.Pickaxe;
                 Debug.Log("Name for the tool touched: " + toolInSpotlight);
         }
     }
