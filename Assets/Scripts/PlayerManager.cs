@@ -24,7 +24,16 @@ public class PlayerManager : MonoBehaviour
     public GameObject lightOnPickaxe;
     private GameObject activeLight;
 
+    private string touchedTool;
+
     public Dictionary<string, GameObject> lightOnTool;
+
+    public GameObject playerWateringCan;
+    public GameObject playerPickaxe;
+
+    public Dictionary<string, GameObject> toolOnPlayer;
+    string lastSelectedTool = "none";
+
 
     // Start is called before the first frame update
     void Start()
@@ -36,6 +45,12 @@ public class PlayerManager : MonoBehaviour
         {
             { Tools.WateringCan, lightOnWateringCan },
             { Tools.Pickaxe, lightOnPickaxe },
+        };
+
+        toolOnPlayer = new Dictionary<string, GameObject>
+        {
+            {Tools.WateringCan, playerWateringCan },
+            {Tools.Pickaxe, playerPickaxe },
         };
         
     }
@@ -61,7 +76,7 @@ public class PlayerManager : MonoBehaviour
             if (Input.GetKeyDown(KeyCode.E))       
             {
                 Debug.Log("Key E was pressed!");
-                //ChangePlayerAppearance();
+                ChangePlayerAppearance();
             }
         }
         else if (activeLight is not null)
@@ -85,8 +100,13 @@ public class PlayerManager : MonoBehaviour
         if (lightOnTool.TryGetValue(collision.gameObject.name, out GameObject light))
         {
             Debug.Log($"touched {collision.gameObject.name}");
+     
             SetActiveLight(newActiveLight: light);
             SetToolUIVisibility(toolUiIsVisible: true);
+
+            touchedTool = collision.gameObject.name;
+            // toolOnPlayer.TryGetValue(collision.gameObject.name, out var tool);
+
         }
     }
 
@@ -130,10 +150,23 @@ public class PlayerManager : MonoBehaviour
         }
     }
 
-    /*
+    
     private void ChangePlayerAppearance()
     {
+        toolOnPlayer.TryGetValue(touchedTool, out var newTool);
+        Debug.Log($"touched tool {touchedTool} and tool to show is {newTool}");
+
+        toolOnPlayer.TryGetValue(lastSelectedTool, out var oldTool);
+
+
+        if (lastSelectedTool != touchedTool)
+        {
+            newTool.SetActive(true);
+            oldTool.SetActive(false);
+
+            lastSelectedTool = touchedTool;
+        }
 
     }
-    */
+    
 }

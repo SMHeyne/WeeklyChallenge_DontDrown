@@ -102,7 +102,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4666865628130596359}
   m_Layer: 0
-  m_Name: Soul
+  m_Name: Ghost
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -300,9 +300,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1687853269230169647}
-  - component: {fileID: 2027973963556570529}
-  - component: {fileID: 8916944279404802940}
   - component: {fileID: 153793002247578172}
+  - component: {fileID: 2647700616439802601}
+  - component: {fileID: 6819222523550514720}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -329,7 +329,28 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!136 &2027973963556570529
+--- !u!114 &153793002247578172
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8544173846329539186}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7089f123631910a488369c687ae6272f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  moveSpeed: 10
+  playerOnGround: 1
+  timeRemainingOnCountdown: 3
+  useToolUI: {fileID: 0}
+  lightOnWateringCan: {fileID: 0}
+  lightOnPickaxe: {fileID: 0}
+  playerWateringCan: {fileID: 871960130613042980}
+  playerPickaxe: {fileID: 1719573756675700122}
+  playerSoul: {fileID: 2699687526272221617}
+--- !u!136 &2647700616439802601
 CapsuleCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -352,7 +373,7 @@ CapsuleCollider:
   m_Height: 1.26
   m_Direction: 1
   m_Center: {x: 0, y: 0.6, z: 0}
---- !u!54 &8916944279404802940
+--- !u!54 &6819222523550514720
 Rigidbody:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -379,22 +400,6 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 112
   m_CollisionDetection: 0
---- !u!114 &153793002247578172
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8544173846329539186}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7089f123631910a488369c687ae6272f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  moveSpeed: 10
-  playerOnGround: 1
-  timeRemainingOnCountdown: 3
-  useToolUI: {fileID: 0}
 --- !u!1001 &3425472648988307458
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -403,6 +408,34 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 1687853269230169647}
     m_Modifications:
+    - target: {fileID: 1355999327409333331, guid: ae5fb6b8f46ce7a41ac4baf3344bc033, type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2052747530839038837, guid: ae5fb6b8f46ce7a41ac4baf3344bc033, type: 3}
+      propertyPath: m_Drag
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2052747530839038837, guid: ae5fb6b8f46ce7a41ac4baf3344bc033, type: 3}
+      propertyPath: m_Mass
+      value: 0.0000001
+      objectReference: {fileID: 0}
+    - target: {fileID: 2052747530839038837, guid: ae5fb6b8f46ce7a41ac4baf3344bc033, type: 3}
+      propertyPath: m_UseGravity
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2052747530839038837, guid: ae5fb6b8f46ce7a41ac4baf3344bc033, type: 3}
+      propertyPath: m_AngularDrag
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2052747530839038837, guid: ae5fb6b8f46ce7a41ac4baf3344bc033, type: 3}
+      propertyPath: m_Constraints
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2052747530839038837, guid: ae5fb6b8f46ce7a41ac4baf3344bc033, type: 3}
+      propertyPath: m_IsKinematic
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 2562664907430293286, guid: ae5fb6b8f46ce7a41ac4baf3344bc033, type: 3}
       propertyPath: m_Name
       value: WateringCan
@@ -455,11 +488,18 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 2052747530839038837, guid: ae5fb6b8f46ce7a41ac4baf3344bc033, type: 3}
+    - {fileID: 1355999327409333331, guid: ae5fb6b8f46ce7a41ac4baf3344bc033, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: ae5fb6b8f46ce7a41ac4baf3344bc033, type: 3}
+--- !u!1 &871960130613042980 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 2562664907430293286, guid: ae5fb6b8f46ce7a41ac4baf3344bc033, type: 3}
+  m_PrefabInstance: {fileID: 3425472648988307458}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &9031857838480487355 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 5971249602038809529, guid: ae5fb6b8f46ce7a41ac4baf3344bc033, type: 3}
@@ -473,6 +513,14 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 1687853269230169647}
     m_Modifications:
+    - target: {fileID: 6013070373555427446, guid: a9a8388817f003f44bdd0dd641dfd246, type: 3}
+      propertyPath: m_UseGravity
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6013070373555427446, guid: a9a8388817f003f44bdd0dd641dfd246, type: 3}
+      propertyPath: m_Constraints
+      value: 14
+      objectReference: {fileID: 0}
     - target: {fileID: 6197703187396368130, guid: a9a8388817f003f44bdd0dd641dfd246, type: 3}
       propertyPath: m_Name
       value: Pickaxe
@@ -525,11 +573,17 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: -18.072
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 6013070373555427446, guid: a9a8388817f003f44bdd0dd641dfd246, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a9a8388817f003f44bdd0dd641dfd246, type: 3}
+--- !u!1 &1719573756675700122 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 6197703187396368130, guid: a9a8388817f003f44bdd0dd641dfd246, type: 3}
+  m_PrefabInstance: {fileID: 4746667627293450904}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &3121324036977008189 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 7678257630691409061, guid: a9a8388817f003f44bdd0dd641dfd246, type: 3}

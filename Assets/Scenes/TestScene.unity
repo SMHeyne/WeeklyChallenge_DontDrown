@@ -589,6 +589,14 @@ PrefabInstance:
       propertyPath: useToolUI
       value: 
       objectReference: {fileID: 2121892868}
+    - target: {fileID: 153793002247578172, guid: 78a350f5974b8c248aad8a7855f739c5, type: 3}
+      propertyPath: lightOnPickaxe
+      value: 
+      objectReference: {fileID: 1851947654}
+    - target: {fileID: 153793002247578172, guid: 78a350f5974b8c248aad8a7855f739c5, type: 3}
+      propertyPath: lightOnWateringCan
+      value: 
+      objectReference: {fileID: 1942719489}
     - target: {fileID: 1687853269230169647, guid: 78a350f5974b8c248aad8a7855f739c5, type: 3}
       propertyPath: m_RootOrder
       value: 8
